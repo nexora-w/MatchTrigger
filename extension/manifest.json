@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Match Trigger Extension",
+  "version": "1.0.0",
+  "description": "Monitors iframe content for real-time updates and sends data to socket server",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.radarfutebol.com/*",
+    "https://sports.whcdn.net/*"
+  ],
+  "action": {
+    "default_popup": "html/popup.html",
+    "default_title": "Match Trigger"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.radarfutebol.com/*"],
+      "js": ["js/content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["js/iframe-monitor.js"],
+      "matches": ["https://sports.whcdn.net/*"]
+    }
+  ],
+  "icons": {
+    "16": "assets/icon.png",
+    "48": "assets/icon.png",
+    "128": "assets/icon.png"
+  }
+}

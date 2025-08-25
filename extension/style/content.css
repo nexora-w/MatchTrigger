@@ -1,0 +1,40 @@
+/* Content Script Styles for Match Trigger Extension */
+
+/* Hide any extension-related elements that might interfere with the page */
+[data-extension="iframe-monitor"] {
+    display: none !important;
+}
+
+/* Add subtle visual indicator that extension is active */
+body::before {
+    content: "⚽ Match Trigger Active";
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    z-index: 999999;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+body:hover::before {
+    opacity: 1;
+}
+
+/* Style for any injected monitoring elements */
+.match-trigger-monitor {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Ensure extension elements don't interfere with page layout */
+.match-trigger-extension * {
+    box-sizing: border-box;
+}
