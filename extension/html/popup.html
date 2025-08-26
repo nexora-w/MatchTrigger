@@ -4,17 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Trigger Extension</title>
+    <link rel="stylesheet" href="../style/popup.css">
 </head>
 <body>
     <div class="header">
         <h1>⚽ Match Trigger</h1>
         <p>Real-time event monitoring</p>
     </div>
-    <div class="content"></div>
+    
+    <div class="content">
         <div class="status">
             <h3>Monitoring Status</h3>
+            <div class="status-indicator">
+                <span id="status-text">Stopped</span>
+                <div id="status-dot" class="status-dot stopped"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="start-btn" class="btn btn-start">
+                <span class="btn-icon">▶</span>
+                Start Monitoring
+            </button>
+            <button id="stop-btn" class="btn btn-stop" disabled>
+                <span class="btn-icon">⏹</span>
+                Stop Monitoring
+            </button>
+        </div>
+        
+        <div class="info">
+            <div class="info-item">
+                <label>Target:</label>
+                <span>box_commentaries</span>
+            </div>
+            <div class="info-item">
+                <label>Last Update:</label>
+                <span id="last-update">Never</span>
+            </div>
         </div>
     </div>
+    
     <div class="footer">
         <p>Version 1.0.0</p>
     </div>

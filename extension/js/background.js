@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const tabId = sender.tab.id;
         const iframeSrc = message.iframeSrc;
         
-        console.log('Attempting to inject into cross-origin iframe:', iframeSrc);
+
         
         // Use chrome.scripting API to inject into cross-origin iframe
         if (iframeSrc && iframeSrc.includes('sports.whcdn.net')) {
@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 },
                 files: ['js/iframe-monitor.js']
             }).then(() => {
-                console.log('Successfully injected into cross-origin iframe');
+
                 sendResponse({success: true});
             }).catch((error) => {
                 console.error('Failed to inject into cross-origin iframe:', error);
@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     
     // Handle messages from iframe-monitor.js
     if (message.type === 'iframe-change' || message.type === 'iframe-loaded') {
-        console.log('Received iframe data:', message);
+
         // Forward to popup or store in storage if needed
         chrome.storage.local.set({
             latestIframeData: message
@@ -39,4 +39,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true; // Keep the message channel open for async response
 });
 
-console.log('Background script loaded');
+

@@ -1,4 +1,16 @@
-console.log("Content script loaded");
+
+
+// Function to check if an iframe should be targeted for injection
+function shouldInjectIntoIframe(iframe) {
+  if (!iframe.src) {
+
+    return false;
+  }
+  
+  const shouldInject = iframe.src.includes("sports.whcdn.net");
+
+  return shouldInject;
+}
 
 // Function to inject iframe-monitor.js into iframes
 function injectIframeMonitor() {
@@ -6,13 +18,19 @@ function injectIframeMonitor() {
   const iframes = document.querySelectorAll("iframe");
 
   iframes.forEach((iframe, index) => {
-    console.log(`Processing iframe ${index + 1}:`, iframe.src);
+
+    
+    // Check if this iframe should be targeted for injection
+    if (!shouldInjectIntoIframe(iframe)) {
+
+      return;
+    }
     
     // Check if this is a cross-origin iframe first
     const isCrossOrigin = iframe.src && !iframe.src.startsWith(window.location.origin);
     
     if (isCrossOrigin) {
-      console.log(`Iframe ${index + 1} is cross-origin, using background script injection`);
+
       // Immediately send to background script for cross-origin iframes
       chrome.runtime.sendMessage({
         action: "injectIntoIframe",
@@ -38,7 +56,7 @@ function injectIframeMonitor() {
           const target = iframeDoc.head || iframeDoc.body || iframeDoc.documentElement;
           if (target) {
             target.appendChild(script);
-            console.log(`Injected iframe-monitor.js into same-origin iframe ${index + 1}`);
+
           }
         } catch (error) {
           console.warn(`Fallback to background injection for iframe ${index + 1}:`, error);
@@ -67,16 +85,14 @@ function observeNewIframes() {
         if (node.nodeType === Node.ELEMENT_NODE) {
           // Check if the added node is an iframe
           if (node.tagName === "IFRAME") {
-            console.log("New iframe detected:", node.src);
+
             injectIntoSingleIframe(node);
           }
           // Check if the added node contains iframes
           const newIframes =
             node.querySelectorAll && node.querySelectorAll("iframe");
           if (newIframes && newIframes.length > 0) {
-            console.log(
-              `${newIframes.length} new iframes found in added content`
-            );
+
             newIframes.forEach((iframe) => injectIntoSingleIframe(iframe));
           }
         }
@@ -94,10 +110,16 @@ function observeNewIframes() {
 
 // Helper function to inject into a single iframe
 function injectIntoSingleIframe(iframe) {
+  // Check if this iframe should be targeted for injection
+  if (!shouldInjectIntoIframe(iframe)) {
+
+    return;
+  }
+  
   const isCrossOrigin = iframe.src && !iframe.src.startsWith(window.location.origin);
   
   if (isCrossOrigin) {
-    console.log("New cross-origin iframe detected, using background script injection");
+
     chrome.runtime.sendMessage({
       action: "injectIntoIframe",
       iframeSrc: iframe.src,
@@ -114,7 +136,7 @@ function injectIntoSingleIframe(iframe) {
         const target = iframeDoc.head || iframeDoc.body || iframeDoc.documentElement;
         if (target) {
           target.appendChild(script);
-          console.log("Injected iframe-monitor.js into new same-origin iframe");
+
         }
       } catch (error) {
         console.warn("Fallback to background injection for new iframe:", error);

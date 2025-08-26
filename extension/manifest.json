@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Match Trigger Extension",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "Monitors iframe content for real-time updates and sends data to socket server",
   "permissions": [
     "activeTab",
